@@ -1,0 +1,9 @@
+Variável: "Ozone"
+Total de observações: 153
+Valores NA: 37
+Média por mês (Mês, Média, Dias medidos):
+Mês 5: média = 23.62 (dias = 26)
+Mês 6: média = 29.44 (dias = 9)
+Mês 7: média = 59.12 (dias = 26)
+Mês 8: média = 59.96 (dias = 26)
+Mês 9: média = 31.45 (dias = 29)
