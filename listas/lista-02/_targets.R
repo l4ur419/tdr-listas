@@ -47,6 +47,6 @@ list(
       caminho
     },
     format = "file"
-  )
-  
+  ),
+  tar_quarto(relatorio, "relatorio.qmd")
 )
