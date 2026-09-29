@@ -1,0 +1,32 @@
+---
+title: "Análise da Relação entre Ozônio e Vento"
+author: "Laura Nicoletti"
+lang: pt-BR
+format:
+  html:
+    embed-resources: true
+---
+
+```{r carrega}
+#| echo: false
+#| message: false
+# Carrega os alvos prontos sem calcular nada de novo
+targets::tar_load(c(dados_lidos, medias, modelo, figura))
+```
+O conjunto de dados original sobre a qualidade do ar possui `r nrow(dados_lidos)` observações. A partir desses dados, calculamos as médias mensais, que podem ser consultadas na @tbl-medias.
+
+```{r tbl-medias}
+#| echo: false
+#| tbl-cap: "Médias mensais de ozônio (ppb) e vento (mph)."
+knitr::kable(medias)
+```
+Para entender o impacto do vento na concentração de ozônio, ajustamos um modelo de regressão linear utilizando as `r nobs(modelo)` observações válidas (sem dados faltantes). O modelo explica `r round(100 * summary(modelo)$r.squared, 1)`% da variação do ozônio, e o comportamento visual desse ajuste pode ser conferido na @fig-dispersao.
+
+```{r fig-dispersao}
+#| echo: false
+#| fig-cap: "Gráfico de dispersão entre Ozônio e Vento com a reta de regressão ajustada."
+knitr::include_graphics(here::here(figura))
+```
+
+Conclusão:
+A análise indica que existe uma relação negativa e significativa entre as variáveis: dias com ventos mais fortes tendem a apresentar menores concentrações de ozônio na atmosfera.
