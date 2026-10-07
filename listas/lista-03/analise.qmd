@@ -8,6 +8,7 @@ format:
 execute:
   echo: true
 ---
+## Exercício 1 
 
 ```{r}
 #| message: false
@@ -40,3 +41,27 @@ leite_2023 <- read_delim(
 leite_2023
 ```
 
+## Exercício 2
+
+```{r}
+# Transformar a tabela para o formato longo e ajustar os meses
+leite_longo <- leite_2023 |>
+  pivot_longer(
+    cols = jan:dez, 
+    names_to = "mes", 
+    values_to = "leite"
+  ) |>
+  mutate(
+    mes = factor(mes, levels = c("jan", "fev", "mar", "abr", "mai", "jun", 
+                                 "jul", "ago", "set", "out", "nov", "dez"))
+  )
+
+# Imprimir a tabela resultante para verificação no HTML
+leite_longo
+
+# Contar o número de linhas da tabela longa
+nrow(leite_longo)
+
+# Contar a quantidade de valores ausentes (NAs)
+sum(is.na(leite_longo$leite))
+```
