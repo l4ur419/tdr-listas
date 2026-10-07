@@ -91,3 +91,38 @@ unidade_sem_medicao <- anti_join(cadastro, leite_longo, by = "codigo")
 # Imprimir a unidade sem medição
 unidade_sem_medicao
 ```
+
+## Exercício 4 — Resumir por grupo
+
+**Decisão sobre valores ausentes:** Para o tema de produção de leite, considerei que um mês sem registro representa falta de dados (e não necessariamente que a fazenda produziu zero litros). Por isso, optei por ignorar os NAs matematicamente usando o argumento `na.rm = TRUE` dentro das funções. Essa decisão afeta o cálculo das colunas de "total do ano" e "média mensal", mas **não afeta** a contagem de meses com registro, que avalia diretamente se a célula estava preenchida ou vazia.
+
+O total geral registrado no ano foi de `r format(sum(tabela_junta$leite, na.rm = TRUE), big.mark = ".", decimal.mark = ",")`.
+
+```{r}
+# 1. Resumo por unidade (fazenda)
+resumo_unidade <- tabela_junta |>
+  group_by(codigo, nome, sistema) |>
+  summarise(
+    meses_com_registro = sum(!is.na(leite)), # Conta quantos meses não são NA
+    total_ano = sum(leite, na.rm = TRUE),
+    media_relativa = mean(litros_por_vaca, na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  arrange(desc(media_relativa)) # Ordena da maior para a menor média
+
+# Imprimir o resumo por unidade
+resumo_unidade
+
+# 2. Resumo por categoria (sistema)
+resumo_categoria <- tabela_junta |>
+  group_by(sistema) |>
+  summarise(
+    unidades = n_distinct(codigo), # Conta fazendas únicas por sistema
+    total_ano = sum(leite, na.rm = TRUE),
+    media_relativa = mean(litros_por_vaca, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+# Imprimir o resumo por categoria
+resumo_categoria
+```
