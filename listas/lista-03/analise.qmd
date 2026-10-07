@@ -65,3 +65,29 @@ nrow(leite_longo)
 # Contar a quantidade de valores ausentes (NAs)
 sum(is.na(leite_longo$leite))
 ```
+
+## Exercício 3
+
+```{r}
+# Juntar as tabelas mantendo todas as linhas da tabela longa
+tabela_junta <- left_join(
+  leite_longo, 
+  cadastro, 
+  by = "codigo",
+  relationship = "many-to-one" 
+) |>
+  # Criar a medida relativa
+  mutate(litros_por_vaca = leite / vacas)
+
+# Imprimir a tabela junta
+tabela_junta
+
+# Conferir que a junção não mudou o número de linhas
+nrow(tabela_junta)
+
+# 3. Descobrir qual unidade do cadastro não tem medição
+unidade_sem_medicao <- anti_join(cadastro, leite_longo, by = "codigo")
+
+# Imprimir a unidade sem medição
+unidade_sem_medicao
+```
