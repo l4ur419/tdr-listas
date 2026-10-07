@@ -1,0 +1,42 @@
+---
+title: "Análise - Leite entregue pelas fazendas de uma cooperativa"
+author: "Laura Nicoletti"
+lang: pt-BR
+format:
+  html:
+    embed-resources: true
+execute:
+  echo: true
+---
+
+```{r}
+#| message: false
+#| warning: false
+library(tidyverse)
+
+# Ler o arquivo de cadastro
+cadastro <- read_delim(
+  "dados/cadastro.csv",
+  delim = ";",
+  locale = locale(encoding = "ISO-8859-1")
+)
+
+# Imprimir o cadastro no relatório
+cadastro
+
+# Ler o arquivo anual (2023)
+leite_2023 <- read_delim(
+  "dados/leite_2023.csv",
+  delim = ";",
+  locale = locale(decimal_mark = ","),
+  na = "-",
+  col_types = cols(
+    codigo = col_character(),
+    .default = col_double()
+  )
+)
+
+# Imprimir a tabela anual no relatório
+leite_2023
+```
+
